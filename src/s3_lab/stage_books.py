@@ -122,3 +122,6 @@ def make_public(bucket):
     except ClientError as e:
         log.error(f"Error attaching policy to {bucket}: {e}")
         return False
+
+def upload_files(bucket, file_paths)
+    """Blah"""
