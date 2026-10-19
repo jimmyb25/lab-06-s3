@@ -6,6 +6,7 @@ import sys
 import requests
 import time
 import boto3
+import json
 from botocore.exceptions import ClientError
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
@@ -82,6 +83,51 @@ def create_bucket(bucket):
     except ClientError as e:
         log.error(f"Error creating bucket {bucket}: {e}")
         return False
+
+def make_public(bucket):
+    """Makes the inputted bucket public on AWS"""
+
+    # turn off the Block Public Access within try/except block
+    try:
+        s3.put_public_access_block(
+            Bucket = bucket,
+            PublicAccessBlockConfiguration={
+                "BlockPublicAcls": False,
+                "IgnorePublicAcls": False,
+                "BlockPublicPolicy": False,
+                "RestrictPublicBuckets": False,
+            },
+        )
+        log.info(f"Turned off Blocking Public Access for bucket {bucket}")
+    except ClientError as e:
+        log.error(f"Error turning of Block Public Access for bucket {bucket}: {e}")
+        return False
+
+    # create the bucket policy letting anyone read the objects
+    policy = {
+        "Version": "2026-10-19",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Principal": "*",
+                "Action": "s3:GetObject",
+                "Resource": f"arn:aws:s3:::{bucket}/*"
+            }
+        ]
+    }
+
+    # actually attach the bucket policy, within a try/except block
+    try:
+        s3.put_bucket_policy(Bucket=bucket, Policy = json.dumps(policy))
+        log.info(f"Successfully attached public read policy to {bucket}")
+        return True
+    except ClientError as e:
+        log.error(f"Error attaching policy to {bucket}: {e}")
+        return False
+
+
+
+
 
 #try:
 #    # us-east-1: omit LocationConstraint or create_bucket fails
