@@ -124,14 +124,3 @@ def make_public(bucket):
     except ClientError as e:
         log.error(f"Error attaching policy to {bucket}: {e}")
         return False
-
-
-
-
-
-#try:
-#    # us-east-1: omit LocationConstraint or create_bucket fails
-#    s3.create_bucket(Bucket=bucket_name)
-#    log.info(f"Created bucket: {bucket_name}")
-#except ClientError as e:
-#    log.error(f"Error creating bucket {bucket_name}: {e}")
