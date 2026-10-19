@@ -51,6 +51,10 @@ def download_books(list_file, dest_dir):
             paths.append(path)
         except requests.RequestException as e:
             log.error(f'Error on {url}: {e}')
+
+        time.sleep(1) # keep request speed low
+
+    return paths
 #try:
 #    # us-east-1: omit LocationConstraint or create_bucket fails
 #    s3.create_bucket(Bucket=bucket_name)
