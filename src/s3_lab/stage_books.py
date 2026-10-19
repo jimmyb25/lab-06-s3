@@ -65,6 +65,23 @@ def download_books(list_file, dest_dir):
 
 def create_bucket(bucket):
     """Tries to create a bucket, returning true if successful, false if failed"""
+    #check if the bucket already exists
+    try:
+        s3.head_bucket(Bucket=bucket)
+        log.info(f"Bucket {bucket} already exists")
+        return True
+    except ClientError:
+        log.info(f"Bucket {bucket} not found, creating it")
+
+    #create the bucket now that it's verified it doesn't yet exist
+    try:
+        # us-east-1: omit LocationConstraint or create_bucket fails
+        s3.create_bucket(Bucket=bucket)
+        log.info(f"Created bucket: {bucket}")
+        return True
+    except ClientError as e:
+        log.error(f"Error creating bucket {bucket}: {e}")
+        return False
 
 #try:
 #    # us-east-1: omit LocationConstraint or create_bucket fails
