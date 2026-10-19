@@ -14,9 +14,7 @@ log = logging.getLogger(__name__)
 
 s3 = boto3.client("s3", region_name="us-east-1")
 
-# practice-<USER>: bucket names must be globally unique across all of AWS
-#bucket_name = f"practice-{os.environ.get('USER', 'unknown')}"
-#log.info(f"{bucket_name}")
+# begin defining functions
 
 def parse_args():
     """Parses the arguments from the command line, turning them into a tuple, and rejecting them if they aren't given correctly"""
