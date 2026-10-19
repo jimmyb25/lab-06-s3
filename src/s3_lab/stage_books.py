@@ -19,10 +19,12 @@ s3 = boto3.client("s3", region_name="us-east-1")
 
 def parse_args():
     """Parses the arguments from the command line, turning them into a tuple, and rejecting them if they aren't given correctly"""
+    log.info('Parsing command line arguments')
     if len(sys.argv) != 4:
         log.info("Type it like this: python stage_books.py <list_file> <index_path> <bucket>")
         sys.exit(1)
     arg_tuple = (sys.argv[1], sys.argv[2], sys.argv[3])
+    log.info('Found command line arguments')
     return arg_tuple
 
 def download_books(list_file, dest_dir):
@@ -41,6 +43,14 @@ def download_books(list_file, dest_dir):
             paths.append(path)
             continue
 
+        try:
+            response = requests.get(url, timeout=30)
+            response.raise_for_status()
+            open(path, "wb").write(response.content)
+            log.info(f"Downloaded {url} to {path}")
+            paths.append(path)
+        except requests.RequestException as e:
+            log.error(f'Error on {url}: {e}')
 #try:
 #    # us-east-1: omit LocationConstraint or create_bucket fails
 #    s3.create_bucket(Bucket=bucket_name)
