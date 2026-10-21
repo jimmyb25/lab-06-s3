@@ -103,7 +103,7 @@ def make_public(bucket):
 
     # create the bucket policy letting anyone read the objects
     policy = {
-        "Version": "2026-10-19",
+        "Version": "2012-10-17",
         "Statement": [
             {
                 "Effect": "Allow",
