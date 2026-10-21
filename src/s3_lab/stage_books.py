@@ -173,9 +173,9 @@ def upload_index(bucket, index_path):
 
 def main():
     """run all of the functions in order, exiting if anything fails"""
-    arguments = parse_args()
+    list_file, index_path, bucket = parse_args()
     
-    book_list = download_books(arguments[0],"books")
+    book_list = download_books(list_file,"books")
     if not book_list:
         log.error("No books were downloaded, stopping")
         sys.exit(1)
@@ -184,14 +184,14 @@ def main():
         log.error(f"Could not create bucket {bucket}, stopping")
         sys.exit(1)
 
-    uploaded = upload_files(bucket, file_paths)
+    uploaded = upload_files(bucket, book_list)
     index_ok = upload_index(bucket, index_path)
 
     url = f"https://{bucket}.s3.amazonaws.com/index.html"
-    if uploaded == len(file_paths) and index_ok:
+    if uploaded == len(book_list) and index_ok:
         log.info(f"Success: uploaded {uploaded} books and the index page to {bucket}")
     else:
-        log.error(f"Finished with errors: uploaded {uploaded} of {len(file_paths)} books, index page uploaded: {index_ok}")
+        log.error(f"Finished with errors: uploaded {uploaded} of {len(book_list)} books, index page uploaded: {index_ok}")
     log.info(f"Index page: {url}")
 
 
