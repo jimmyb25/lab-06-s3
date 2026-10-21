@@ -184,6 +184,10 @@ def main():
         log.error(f"Could not create bucket {bucket}, stopping")
         sys.exit(1)
 
+    if not make_public(bucket):
+        log.error(f"Could not make bucket {bucket} public, stopping")
+        sys.exit(1)
+
     uploaded = upload_files(bucket, book_list)
     index_ok = upload_index(bucket, index_path)
 
