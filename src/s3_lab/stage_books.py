@@ -59,7 +59,7 @@ def download_books(list_file, dest_dir):
 
         time.sleep(1) # keep request speed low
 
-    log.info("Donwload process completed.")
+    log.info("Download process completed.")
     return paths
 
 def create_bucket(bucket):
@@ -123,5 +123,77 @@ def make_public(bucket):
         log.error(f"Error attaching policy to {bucket}: {e}")
         return False
 
-def upload_files(bucket, file_paths)
-    """Blah"""
+def upload_files(bucket, file_paths):
+    """Upload each file listed in file_paths to the bucket, then return the number successfully uploaded"""
+    log.info(f"Uploading {len(file_paths)} files to {bucket}")
+    uploaded = 0
+
+    # loop through all paths, uploading each one with its file name as the key
+    for path in file_paths:
+        key = os.path.basename(path)  # e.g. pg1342.txt, not books/pg1342.txt
+        try:
+            s3.upload_file(
+                path,
+                bucket,
+                key,
+                ExtraArgs={"ContentType": "text/plain; charset=utf-8"},
+            )
+            log.info(f"Uploaded {path} to s3://{bucket}/{key}")
+            uploaded += 1
+        except (ClientError, boto3.exceptions.S3UploadFailedError) as e:
+            log.error(f"Error uploading {path} to {bucket}: {e}")
+
+    log.info(f"Upload process completed: {uploaded} of {len(file_paths)} files uploaded")
+    return uploaded
+
+
+def upload_index(bucket, index_path):
+    """Uploads the index page to the bucket as an html file called index.html, returning true if successful"""
+    log.info(f"Uploading index page {index_path} to {bucket}")
+    key = "index.html"
+
+    # open the local file and upload it, catching a missing file separately
+    try:
+        with open(index_path, "rb") as f:
+            s3.put_object(
+                Bucket=bucket,
+                Key=key,
+                Body=f,
+                ContentType="text/html",  # so browsers display it as a web page
+            )
+        log.info(f"Uploaded {index_path} to s3://{bucket}/{key}")
+        return True
+    except FileNotFoundError:
+        log.error(f"Local file not found: {index_path}")
+        return False
+    except ClientError as e:
+        log.error(f"Error uploading {index_path} to {bucket}: {e}")
+        return False
+
+
+def main():
+    """run all of the functions in order, exiting if anything fails"""
+    arguments = parse_args()
+    
+    book_list = download_books(arguments[0],"books")
+    if not book_list:
+        log.error("No books were downloaded, stopping")
+        sys.exit(1)
+
+    if not create_bucket(bucket):
+        log.error(f"Could not create bucket {bucket}, stopping")
+        sys.exit(1)
+
+    uploaded = upload_files(bucket, file_paths)
+    index_ok = upload_index(bucket, index_path)
+
+    url = f"https://{bucket}.s3.amazonaws.com/index.html"
+    if uploaded == len(file_paths) and index_ok:
+        log.info(f"Success: uploaded {uploaded} books and the index page to {bucket}")
+    else:
+        log.error(f"Finished with errors: uploaded {uploaded} of {len(file_paths)} books, index page uploaded: {index_ok}")
+    log.info(f"Index page: {url}")
+
+
+if __name__ == "__main__":
+    main()
