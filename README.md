@@ -8,6 +8,8 @@ LINK TO BOOK IN SECRET BUCKET: https://secret-tfs8zb.s3.amazonaws.com/pg28885.tx
 
 I would use a public bucket when I am making something for everyone to see. I would use a private bucket when I want to share information with someone, but I don't want everyone to be able to see it.
 
+## Start of Lab
+
 
 The goal of this lab is to get you comfortable with **Amazon S3** object storage, building on what you have learned about the command line, AWS accounts, and scripting. You will stage a collection of 100 books from [Project Gutenberg](https://www.gutenberg.org/) in a **public** bucket that anyone can browse in a web browser, and share a single book from a **private** bucket with a time-limited presigned URL.
 
