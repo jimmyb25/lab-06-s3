@@ -1,7 +1,10 @@
 # Lab 06: Working with S3 Storage
 
 INDEX PAGE OF PUBLIC BUCKET: https://public-tfs8zb.s3.amazonaws.com/index.html
+
 LINK TO BOOK IN SECRET BUCKET: https://secret-tfs8zb.s3.amazonaws.com/pg28885.txt?AWSAccessKeyId=ASIAUIG2NH5DUGZRU2KE&Signature=j6NOyXsWNSmr1ubhiSL0QBUo%2BrE%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEIr%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJIMEYCIQCkfnLEfx76HRbL2onBPEhIwmIec8FCpB6yFWRYTdzBLgIhANNgmTme3iFxgkBRDUlUi%2B%2BKoIsI6H42%2B3Krf%2FDDnFLIKq0CCFMQABoMMjkyNTE1ODIzNDMxIgyGQzg%2FGbZudYQj%2FtgqigIjfb3Mwfq179IS2iQh8YPw%2B9GQkD0Rp6CgMZY%2BqowX7wMVLcLgkgjrgavImO%2F71vVMm5kxtB7RJi6UyF46VZR9bIRnCPQiJLyMDUdkVeM0H0IQ0EveeKyoMNu%2Bva9Ez%2F307rnZINyociVVX2x2v2HXdv07cmqXy1j1GE5I4XIFN2VkGcmPNl3OM%2BZ%2FRS04azUC0oasDUaMfh9l1%2BHGDnrYHjsakpTKhEiUIsD2BCh%2Bi%2BADYUN8Vlu6TRE2RcjLg6CIXC%2BpIWLzWfTiawG7LbzrNU6OTOM5iBlAzzNGFYZq5f%2Bssq9m4qDd8%2FMO3BD%2F5Adrn6WBg1pLJ3HkIepibIcTfr6ghqyNqBwxxzCls%2BDWBjqcAd32JVOgQkXSFSCs5PDyD%2FPfX73bwKIIVL%2B0u0rpqynfQUTxo8E3QZDglzzEAugNfki2lMIpIQ%2BjFZ1NSCUNpPnX9%2FMQMQ%2FRa9Y0GVJSyuosVy9lzHHSsswW6DNdOzLZ9t3vyZH24R%2FuJxK3fTqsT68YPVU6vak7PiN1ReuazeF0hHs%2FrHAYME0I8VpNbfam%2Fnv4kovF2v4ptf5VNA%3D%3D&Expires=1793153656
+
+
 
 I would use a public bucket when I am making something for everyone to see. I would use a private bucket when I want to share information with someone, but I don't want everyone to be able to see it.
 
